@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PLASTIQ — Human & Plastic Waste Awareness for Tech Students</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FFFFFF;
+    --surface:#FFFFFF;
+    --surface-2:#EAF4EC;
+    --ink:#17241C;
+    --ink-soft:#4E6558;
+    --line:#CDE6D5;
+    --green:#2E6B47;
+    --green-soft:#DFF1E4;
+    --blue:#1F5C4E;
+    --blue-soft:#DCEFE9;
+    --amber:#8A7A2E;
+    --amber-soft:#F1EFD6;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0F1712; --surface:#16201A; --surface-2:#1C2A22;
+      --ink:#EAF3EC; --ink-soft:#9DB6A8; --line:#2C3E32;
+      --green:#5FAE81; --green-soft:#1C3226;
+      --blue:#4E9686; --blue-soft:#1B2E2A;
+      --amber:#C9BA6E; --amber-soft:#2C2A18;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0F1712; --surface:#16201A; --surface-2:#1C2A22;
+    --ink:#EAF3EC; --ink-soft:#9DB6A8; --line:#2C3E32;
+    --green:#5FAE81; --green-soft:#1C3226;
+    --blue:#4E9686; --blue-soft:#1B2E2A;
+    --amber:#C9BA6E; --amber-soft:#2C2A18;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--green);}
+  .wrap{max-width:980px; margin:0 auto; padding:0 22px;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:56px 0 40px;
+    border-bottom:3px solid var(--green);
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute; top:-40%; right:-10%;
+    width:520px; height:520px; border-radius:50%;
+    background:radial-gradient(circle, var(--green-soft) 0%, transparent 68%);
+    z-index:0;
+  }
+  .hero-inner{position:relative; z-index:1;}
+  .hero-art{
+    position:absolute; top:8px; right:0; z-index:0;
+    width:180px; height:180px; opacity:0.9;
+  }
+  @media (max-width:640px){ .hero-art{display:none;} }
+  .eyebrow-row{display:flex; gap:8px; margin-bottom:18px; flex-wrap:wrap;}
+  .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px; letter-spacing:0.02em;
+    padding:5px 10px; border:1px solid var(--line); color:var(--ink-soft);
+  }
+  h1.title{
+    font-family:'Archivo Narrow', sans-serif;
+    font-weight:700;
+    font-size:clamp(30px, 5vw, 48px);
+    line-height:1.05;
+    margin:0 0 16px;
+    max-width:11ch;
+  }
+  .hero-sub{
+    font-size:15.5px; color:var(--ink-soft); max-width:560px; line-height:1.6;
+    margin:0 0 26px;
+  }
+  .hero-stats{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+    gap:2px; background:var(--line); border:1px solid var(--line);
+  }
+  .hstat{background:var(--surface); padding:14px 16px;}
+  .hstat .k{font-family:'Archivo Narrow',sans-serif; font-weight:700; font-size:20px; color:var(--green);}
+  .hstat .l{font-size:11px; color:var(--ink-soft); margin-top:4px;}
+
+  /* ---------- NAV ---------- */
+  nav.pagenav{
+    position:sticky; top:0; z-index:10;
+    background:var(--bg);
+    border-bottom:1px solid var(--line);
+    display:flex; gap:2px; padding:12px 0; flex-wrap:wrap;
+  }
+  nav.pagenav a{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px; color:var(--ink-soft);
+    text-decoration:none;
+    padding:7px 12px; border:1px solid transparent;
+  }
+  nav.pagenav a:hover{border-color:var(--line); color:var(--ink);}
+
+  section{padding:44px 0;}
+  section.alt{background:var(--surface-2); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  h2.h{
+    font-family:'Archivo Narrow', sans-serif; font-weight:600; font-size:24px;
+    margin:0 0 6px;
+  }
+  p.sub{color:var(--ink-soft); font-size:14px; max-width:560px; line-height:1.6; margin:0 0 26px;}
+
+  /* ---------- CONCEPT CARDS ---------- */
+  .concept-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px;}
+  .ccard{background:var(--surface); border:1px solid var(--line); padding:16px 18px;}
+  .ccard.blue{border-left:3px solid var(--blue);}
+  .ccard.green{border-left:3px solid var(--green);}
+  .ccard.amber{border-left:3px solid var(--amber);}
+  .ccard h3{font-family:'Archivo Narrow',sans-serif; font-size:16px; font-weight:600; margin:0 0 8px; display:flex; align-items:center; gap:9px;}
+  .cicon{width:22px; height:22px; flex-shrink:0; fill:none; stroke:currentColor; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round;}
+  .ccard.green h3{color:var(--green);}
+  .ccard.blue h3{color:var(--blue);}
+  .ccard.amber h3{color:var(--amber);}
+  .ccard h3 span{color:var(--ink);}
+  .ccard p{font-size:13px; color:var(--ink-soft); line-height:1.55; margin:0;}
+
+  .hier{display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-top:20px;}
+  .hier .step{
+    font-family:'IBM Plex Mono',monospace; font-size:12px;
+    background:var(--green-soft); color:var(--green); padding:6px 12px; border:1px solid var(--green);
+  }
+  .hier .arrow{color:var(--ink-soft); font-size:14px;}
+
+  /* ---------- CHAT ---------- */
+  .chat-shell{
+    background:var(--surface); border:1px solid var(--line);
+    display:flex; flex-direction:column;
+    height:520px; max-height:70vh;
+  }
+  .chat-log{
+    flex:1; overflow-y:auto; padding:18px; display:flex; flex-direction:column; gap:12px;
+  }
+  .msg{max-width:82%; padding:10px 13px; font-size:13.5px; line-height:1.5;}
+  .msg.user{align-self:flex-end; background:var(--green); color:#FBFAF4;}
+  .msg.bot{align-self:flex-start; background:var(--surface-2); color:var(--ink); white-space:pre-wrap;}
+  .msg.bot.thinking{color:var(--ink-soft); font-style:italic;}
+  .chat-input-row{
+    display:flex; border-top:1px solid var(--line);
+  }
+  .chat-input-row input{
+    flex:1; border:none; background:transparent; padding:14px 16px;
+    font-family:'IBM Plex Sans',sans-serif; font-size:13.5px; color:var(--ink);
+  }
+  .chat-input-row input:focus{outline:none;}
+  .chat-input-row button{
+    border:none; background:var(--green); color:#FBFAF4;
+    padding:0 22px; font-size:13px; font-weight:500; cursor:pointer;
+  }
+  .chat-input-row button:disabled{background:var(--line); color:var(--ink-soft); cursor:not-allowed;}
+  .chat-suggest{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px;}
+  .chat-suggest button{
+    font-family:'IBM Plex Mono',monospace; font-size:11px;
+    background:var(--surface); border:1px solid var(--line); color:var(--ink-soft);
+    padding:6px 10px; cursor:pointer;
+  }
+  .chat-suggest button:hover{border-color:var(--green); color:var(--green);}
+  .chat-unavailable{
+    padding:28px; text-align:center; color:var(--ink-soft); font-size:13.5px;
+  }
+
+  /* ---------- BOOKS ---------- */
+  .book-search{position:relative; margin-bottom:22px;}
+  .book-search input{
+    width:100%; background:var(--surface); border:1px solid var(--line);
+    padding:13px 16px; font-size:14px; font-family:'IBM Plex Sans',sans-serif; color:var(--ink);
+  }
+  .book-search input:focus{outline:none; border-color:var(--amber);}
+  .book-count{font-size:11.5px; color:var(--ink-soft); margin-bottom:14px; font-family:'IBM Plex Mono',monospace;}
+  .book-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:12px;}
+  .book-card{background:var(--surface); border:1px solid var(--line); padding:16px; border-left:3px solid var(--amber);}
+  .book-title{font-family:'Archivo Narrow',sans-serif; font-weight:600; font-size:15.5px; margin-bottom:3px;}
+  .book-author{font-size:12px; color:var(--ink-soft); margin-bottom:8px;}
+  .book-blurb{font-size:12.5px; color:var(--ink-soft); line-height:1.55;}
+  .book-cat{
+    display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:10px;
+    background:var(--amber-soft); color:var(--amber); padding:3px 8px; margin-top:10px;
+  }
+  .book-empty{color:var(--ink-soft); font-size:13.5px; padding:20px 0;}
+
+  footer.note{
+    padding:28px 0 60px; font-size:11.5px; color:var(--ink-soft); line-height:1.7;
+    border-top:1px solid var(--line);
+  }
+</style>
+</head>
+<body>
+
+<svg style="display:none" aria-hidden="true">
+  <defs>
+    <symbol id="ic-leaf" viewBox="0 0 24 24"><path d="M5 19c8 1 14-5 14-14C10 5 4 11 5 19Z"/><path d="M5 19c3-4 6-7 12-11"/></symbol>
+    <symbol id="ic-recycle" viewBox="0 0 24 24"><path d="M7 8 4.5 12.3 8 16.5"/><path d="M17 8h-6.5"/><path d="M13.5 3.5 17 8l-3.5 4"/><path d="M9.5 20.5H16l2-3.5"/><path d="M6.2 17 4.5 12.3l2.8-1.5"/><path d="M13.5 20.5 15.7 17l-2.8-1.6"/></symbol>
+    <symbol id="ic-bin" viewBox="0 0 24 24"><path d="M5 7h14"/><path d="M9 7V4.5h6V7"/><path d="M6.5 7 7.5 20h9l1-13"/><path d="M10 11v6M14 11v6"/></symbol>
+    <symbol id="ic-chip" viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="1"/><path d="M9 7V4M12 7V4M15 7V4M9 20v-3M12 20v-3M15 20v-3M7 9H4M7 12H4M7 15H4M20 9h-3M20 12h-3M20 15h-3"/></symbol>
+    <symbol id="ic-battery" viewBox="0 0 24 24"><rect x="3" y="8" width="15" height="8" rx="1.5"/><path d="M18 10.5h1.5A1.5 1.5 0 0 1 21 12v0a1.5 1.5 0 0 1-1.5 1.5H18"/><path d="M12 10.5 10 13h2l-2 2.5"/></symbol>
+    <symbol id="ic-hourglass" viewBox="0 0 24 24"><path d="M6 3h12M6 21h12"/><path d="M7 3c0 5 10 5 10 0M7 21c0-5 10-5 10 0"/><path d="M9 5.3c1 2.4 5 2.4 6 0M9 18.7c1-2.4 5-2.4 6 0"/></symbol>
+    <symbol id="ic-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 19c0-3.3 2.5-5.5 5.5-5.5S14.5 15.7 14.5 19"/><circle cx="17" cy="9" r="2.3"/><path d="M15.5 13.2c2.4.3 4 2.3 4 5.3"/></symbol>
+    <symbol id="ic-droplet" viewBox="0 0 24 24"><path d="M12 3c3 4 6.5 8.2 6.5 12A6.5 6.5 0 0 1 5.5 15C5.5 11.2 9 7 12 3Z"/></symbol>
+    <symbol id="ic-pulse" viewBox="0 0 24 24"><path d="M20.5 12h-3.5l-1.7-4-3 8-2-6-1.3 2H3.5"/><path d="M12 20.3C7 17.5 3.5 14.3 3.5 10.2A4.7 4.7 0 0 1 12 7.3a4.7 4.7 0 0 1 8.5 2.9c0 .6-.08 1.2-.24 1.8"/></symbol>
+    <symbol id="ic-wifi" viewBox="0 0 24 24"><path d="M3.5 9.5a13 13 0 0 1 17 0"/><path d="M6.5 13a9 9 0 0 1 11 0"/><path d="M9.5 16.4a4.7 4.7 0 0 1 5 0"/><circle cx="12" cy="19.3" r="1"/></symbol>
+    <symbol id="ic-camera" viewBox="0 0 24 24"><path d="M4 8.5h3l1.3-2h7.4l1.3 2h3v10H4Z"/><circle cx="12" cy="13.3" r="3.3"/></symbol>
+    <symbol id="ic-bars" viewBox="0 0 24 24"><path d="M5 20V11M12 20V6M19 20v-7"/><path d="M3.5 20h17"/></symbol>
+    <symbol id="ic-qr" viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6"/><rect x="14" y="4" width="6" height="6"/><rect x="4" y="14" width="6" height="6"/><path d="M14 14h3v3h-3zM20 14v3M17 20h3"/></symbol>
+    <symbol id="ic-clipboard" viewBox="0 0 24 24"><rect x="5.5" y="4.5" width="13" height="16" rx="1.5"/><rect x="9" y="3" width="6" height="3" rx="1"/><path d="M8.5 11h7M8.5 14.5h7M8.5 18h4.5"/></symbol>
+    <symbol id="ic-bottle" viewBox="0 0 24 24"><path d="M10 3h4v3.2l1.5 2.3v11a1.5 1.5 0 0 1-1.5 1.5h-4A1.5 1.5 0 0 1 8.5 19.5v-11L10 6.2Z"/><path d="M8.5 12.5h7"/></symbol>
+    <symbol id="ic-calendar" viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="15" rx="1.5"/><path d="M4 10h16M8 3.5v4M16 3.5v4"/><path d="M8.5 14.5 11 17l4.5-5"/></symbol>
+    <symbol id="ic-sensor" viewBox="0 0 24 24"><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/><circle cx="12" cy="12" r="3.3"/><path d="M7 7 5.3 5.3M17 7l1.7-1.7M7 17l-1.7 1.7M17 17l1.7 1.7"/></symbol>
+  </defs>
+</svg>
+
+<div class="hero">
+  <div class="wrap hero-inner">
+    <div class="eyebrow-row">
+      <div class="tag">CREATED BY MERUGU SHIVA SUDHAMAN REDDY</div>
+    </div>
+    <h1 class="title">Human and Plastic Waste Awareness for Tech Students</h1>
+    <p class="hero-sub">Waste is a natural result of human activity, but its volume has grown fast with urbanisation, convenience culture and consumer lifestyles. This page walks through the core concept, lets you ask an assistant about it, and collects real books worth reading on the subject.</p>
+    <div class="hero-stats">
+      <div class="hstat"><div class="k">5</div><div class="l">CATEGORIES OF WASTE</div></div>
+      <div class="hstat"><div class="k">5R</div><div class="l">REFUSE → RECYCLE</div></div>
+      <div class="hstat"><div class="k">6</div><div class="l">SKILLS TECH STUDENTS BRING</div></div>
+      <div class="hstat"><div class="k">5</div><div class="l">PHASE REDUCTION PLAN</div></div>
+    </div>
+  </div>
+</div>
+
+<nav class="pagenav">
+  <div class="wrap" style="display:flex; gap:2px; flex-wrap:wrap;">
+    <a href="#concept">Concept</a>
+    <a href="#tech-role">Role of tech students</a>
+    <a href="#projects">Experiments &amp; projects</a>
+    <a href="#assistant">Ask the assistant</a>
+    <a href="#books">Books</a>
+  </div>
+</nav>
+
+<section id="concept">
+  <div class="wrap">
+    <h2 class="h">Understanding the problem</h2>
+    <p class="sub">Waste awareness starts with knowing where waste comes from, what harm it can cause, and what practical action reduces that harm.</p>
+    <div class="concept-grid">
+      <div class="ccard green">
+        <h3><svg class="cicon"><use href="#ic-leaf"/></svg><span>What counts as waste</span></h3>
+        <p>Biodegradable/organic, recyclable, residual, e-waste, and sanitary or hazardous material — each needs different handling, which is why segregation at the source matters.</p>
+      </div>
+      <div class="ccard blue">
+        <h3><svg class="cicon"><use href="#ic-hourglass"/></svg><span>Why plastic persists</span></h3>
+        <p>Plastic is cheap, light and durable — but much of it is used for minutes and discarded. It doesn't biodegrade like organic matter; it fragments into microplastics instead.</p>
+      </div>
+      <div class="ccard amber">
+        <h3><svg class="cicon"><use href="#ic-users"/></svg><span>Human behaviour drives it</span></h3>
+        <p>Buying habits, convenience culture, and disposal practices shape the waste stream as much as the materials themselves — on a campus as much as anywhere.</p>
+      </div>
+      <div class="ccard blue">
+        <h3><svg class="cicon"><use href="#ic-droplet"/></svg><span>Environmental impact</span></h3>
+        <p>Poorly managed plastic waste moves from streets and drains into rivers and oceans, fragmenting into microplastics and affecting wildlife along the way.</p>
+      </div>
+      <div class="ccard green">
+        <h3><svg class="cicon"><use href="#ic-pulse"/></svg><span>Health concerns</span></h3>
+        <p>Unsafe handling, open burning, and waste near food or water sources create real but manageable risks — the fix is safe segregation and proper collection, not panic.</p>
+      </div>
+      <div class="ccard amber">
+        <h3><svg class="cicon"><use href="#ic-chip"/></svg><span>E-waste specifically</span></h3>
+        <p>Old phones, chargers and laptops shouldn't go in ordinary waste. Wipe personal data first, then use an authorised e-waste collection channel.</p>
+      </div>
+    </div>
+    <div class="hier">
+      <div class="step">Refuse</div><div class="arrow">→</div>
+      <div class="step">Reduce</div><div class="arrow">→</div>
+      <div class="step">Reuse</div><div class="arrow">→</div>
+      <div class="step">Repair</div><div class="arrow">→</div>
+      <div class="step">Recycle</div>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="tech-role">
+  <div class="wrap">
+    <h2 class="h">Where tech students fit in</h2>
+    <p class="sub">A smart system is only useful if it solves a real operational problem — observe how waste is generated and collected before choosing a technology.</p>
+    <div class="concept-grid">
+      <div class="ccard green"><h3><svg class="cicon"><use href="#ic-wifi"/></svg><span>IoT smart bins</span></h3><p>Fill-level sensors report bin status to a dashboard so collection routes get planned by data instead of guesswork.</p></div>
+      <div class="ccard blue"><h3><svg class="cicon"><use href="#ic-camera"/></svg><span>AI-assisted sorting</span></h3><p>Computer vision can classify paper, plastic, metal or organic waste — as an aid alongside human oversight, not a replacement for it.</p></div>
+      <div class="ccard amber"><h3><svg class="cicon"><use href="#ic-bars"/></svg><span>Data &amp; dashboards</span></h3><p>Anonymous surveys and waste counts turn an awareness campaign into something measurable, before and after.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <h2 class="h">Experiments &amp; projects</h2>
+    <p class="sub">Buildable ideas, ordered roughly from lightest to most involved. Each one can stand alone or feed into the "Smart Campus Waste Awareness and Monitoring System" as one working piece.</p>
+    <div class="concept-grid">
+      <div class="ccard amber">
+        <h3><svg class="cicon"><use href="#ic-bars"/></svg><span>Sensor simulation (no hardware)</span></h3>
+        <p>Simulate bin fill-levels in a spreadsheet or small script and drive a dashboard from it. The whole system's logic, provable before you touch a single sensor.</p>
+      </div>
+      <div class="ccard green">
+        <h3><svg class="cicon"><use href="#ic-qr"/></svg><span>QR code sorting guide</span></h3>
+        <p>A QR code on each bin links to a one-page guide for what goes where. Pairs directly with the Sort Guide concept on this page.</p>
+      </div>
+      <div class="ccard blue">
+        <h3><svg class="cicon"><use href="#ic-clipboard"/></svg><span>Anonymous waste survey</span></h3>
+        <p>Run the sample questions from the brief, present results as a couple of charts, and write a one-paragraph interpretation of the biggest awareness gap.</p>
+      </div>
+      <div class="ccard green">
+        <h3><svg class="cicon"><use href="#ic-bottle"/></svg><span>Refill-station bottle tracker</span></h3>
+        <p>A simple counter or form logging bottles refilled instead of bought — the kind of small, visible metric that makes a campaign feel real.</p>
+      </div>
+      <div class="ccard blue">
+        <h3><svg class="cicon"><use href="#ic-sensor"/></svg><span>IoT fill-level sensor</span></h3>
+        <p>A microcontroller and an ultrasonic or IR sensor estimate how full a bin is and push the reading to a small server or dashboard.</p>
+      </div>
+      <div class="ccard amber">
+        <h3><svg class="cicon"><use href="#ic-camera"/></svg><span>Computer-vision waste sorter</span></h3>
+        <p>Train a small image classifier on a labelled set of common campus waste items, photographed as they actually appear — dirty, crushed, partly hidden.</p>
+      </div>
+      <div class="ccard green">
+        <h3><svg class="cicon"><use href="#ic-chip"/></svg><span>E-waste collection drive</span></h3>
+        <p>Plan and run a one-day authorised e-waste drop-off: intake form, a simple log of what came in, and a short report on volume collected.</p>
+      </div>
+      <div class="ccard blue">
+        <h3><svg class="cicon"><use href="#ic-calendar"/></svg><span>Before/after reduction study</span></h3>
+        <p>Follow the five-phase plan from the brief — observe, measure, act, add technology, evaluate — and report whether the intervention actually changed behaviour.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="assistant">
+  <div class="wrap">
+    <h2 class="h">Ask Techi</h2>
+    <p class="sub">Your built-in assistant for this topic. Ask about plastic waste, e-waste, IoT sensors, the 5Rs, campaign ideas — or a related topic entirely.</p>
+
+    <div class="chat-suggest" id="chat-suggest">
+      <button data-q="Explain the waste hierarchy with a campus example">Waste hierarchy, with a campus example</button>
+      <button data-q="Give me 3 realistic smart-bin project ideas for a student group with no budget">Low-budget smart-bin ideas</button>
+      <button data-q="What should I actually do with a dead laptop battery?">What to do with a dead battery</button>
+    </div>
+
+    <div class="chat-shell" id="chat-shell">
+      <div class="chat-log" id="chat-log"></div>
+      <div class="chat-input-row">
+        <input type="text" id="chat-input" placeholder="Ask about waste, plastic, e-waste, or anything else…">
+        <button id="chat-send" disabled>Send</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="books">
+  <div class="wrap">
+    <h2 class="h">Further reading</h2>
+    <p class="sub">A working library on plastic, waste and sustainability — search by title, author or topic.</p>
+    <div class="book-search">
+      <input type="text" id="book-search" placeholder="Search books — try 'plastic', 'zero waste', 'e-waste', an author name…">
+    </div>
+    <div class="book-count" id="book-count"></div>
+    <div class="book-grid" id="book-grid"></div>
+  </div>
+</section>
+
+<footer class="note">
+  <div class="wrap">
+    <p style="margin:0 0 10px; color:var(--ink); font-size:12.5px;">
+      Created by <strong>Merugu Shiva Sudhaman Reddy</strong>.<br>
+      © 2026 Merugu Shiva Sudhaman Reddy. All rights reserved. This page and its content may not be reproduced or redistributed without permission from the creator.
+    </p>
+    Techi, the assistant on this page, runs in your browser session — nothing you type is stored by this page. Book list is a curated starting point, not exhaustive; verify availability and edition before citing it elsewhere.
+  </div>
+</footer>
+
+<script>
+(function(){
+  // ============ LOCAL ASSISTANT ============
+  const log = document.getElementById('chat-log');
+  const input = document.getElementById('chat-input');
+  const sendBtn = document.getElementById('chat-send');
+  const suggestRow = document.getElementById('chat-suggest');
+  let busy = false;
+
+  const answers = [
+    {
+      keys: ['5r','five r','refuse','reduce','reuse','repair','recycle'],
+      text: 'The 5Rs are: Refuse, Reduce, Reuse, Repair, and Recycle. Try to prevent waste first, then reduce what you buy, reuse items, repair them when possible, and recycle only when the earlier options are not practical.'
+    },
+    {
+      keys: ['plastic','microplastic'],
+      text: 'Plastic is durable and often used for a short time. Instead of throwing it away, avoid unnecessary single-use plastic, reuse suitable items, segregate recyclable plastic, and send it through an appropriate recycling channel.'
+    },
+    {
+      keys: ['e-waste','ewaste','electronic','laptop','phone','charger','battery'],
+      text: 'For e-waste, do not put electronics or batteries in ordinary bins. Back up and remove personal data, keep batteries from being damaged, and use an authorised e-waste collection or recycling channel.'
+    },
+    {
+      keys: ['smart bin','iot','sensor','fill level'],
+      text: 'A student smart-bin project can use a distance sensor to estimate how full a bin is, send readings to a small dashboard, and notify the collection team when the bin reaches a chosen threshold.'
+    },
+    {
+      keys: ['ai','computer vision','sorting'],
+      text: 'AI-assisted sorting can use computer vision to classify common waste such as paper, plastic, metal, and organic material. Start with a small labelled dataset and measure accuracy before expanding the project.'
+    },
+    {
+      keys: ['campus','college','student','project'],
+      text: 'Good low-cost campus projects include a QR sorting guide, an anonymous waste survey, a refill-station bottle counter, a simulated smart-bin dashboard, and a before/after waste-reduction study.'
+    },
+    {
+      keys: ['waste hierarchy','hierarchy'],
+      text: 'The preferred order is prevention first: Refuse → Reduce → Reuse → Repair → Recycle. For a campus example, avoiding disposable cups is better than collecting and recycling those cups afterward.'
+    }
+  ];
+
+  function addMsg(role, text){
+    const el = document.createElement('div');
+    el.className = 'msg ' + (role === 'user' ? 'user' : 'bot');
+    el.textContent = text;
+    log.appendChild(el);
+    log.scrollTop = log.scrollHeight;
+    return el;
+  }
+
+  function getAnswer(question){
+    const q = question.toLowerCase();
+    const match = answers.find(item => item.keys.some(key => q.includes(key)));
+    if(match) return match.text;
+    return 'I can help with plastic waste, the 5Rs, e-waste, campus sustainability, smart bins, IoT sensors, AI waste sorting, and student project ideas. Try asking one of those questions.';
+  }
+
+  function send(text){
+    const question = text.trim();
+    if(!question || busy) return;
+    busy = true;
+    input.value = '';
+    sendBtn.disabled = true;
+    addMsg('user', question);
+
+    const thinking = addMsg('bot', 'Thinking…');
+    thinking.classList.add('thinking');
+
+    setTimeout(() => {
+      thinking.classList.remove('thinking');
+      thinking.textContent = getAnswer(question);
+      busy = false;
+      sendBtn.disabled = false;
+      input.focus();
+    }, 250);
+  }
+
+  sendBtn.addEventListener('click', () => send(input.value));
+  input.addEventListener('keydown', e => {
+    if(e.key === 'Enter') send(input.value);
+  });
+
+  suggestRow.addEventListener('click', e => {
+    const btn = e.target.closest('button[data-q]');
+    if(btn) send(btn.dataset.q);
+  });
+
+  addMsg('bot', "Hi, I'm Techi. I'm the built-in PLASTIQ assistant. Ask me about plastic waste, e-waste, the 5Rs, smart bins, IoT, AI sorting, or student projects.");
+  // ============ BOOKS ============
+  const books = [
+    {title:"The Problem with Plastic", author:"Judith Enck", cat:"Plastic policy", blurb:"A 2025 case for systemic change in how plastic is produced and regulated, from a former EPA regional administrator."},
+    {title:"Thicker Than Water", author:"Erica Cirino", cat:"Plastic crisis", blurb:"A journalist traces the plastic crisis from source to sea, reporting from research stations and cleanup sites."},
+    {title:"How to Give Up Plastic", author:"Will McCallum", cat:"Practical guide", blurb:"A room-by-room, habit-by-habit guide to cutting single-use plastic out of daily life."},
+    {title:"Zero Waste Home", author:"Bea Johnson", cat:"Practical guide", blurb:"An early, influential account of reducing household waste to almost nothing, with concrete swaps."},
+    {title:"Can I Recycle This?", author:"Jennie Romer", cat:"Recycling", blurb:"A practical breakdown of what actually gets recycled versus what just looks recyclable, and why."},
+    {title:"Year of No Garbage", author:"Eve O. Schaub", cat:"Memoir", blurb:"A year-long personal experiment confronting household trash, recycling myths, and where waste really goes."},
+    {title:"Junkyard Planet", author:"Adam Minter", cat:"E-waste & recycling", blurb:"A look inside the global scrap and recycling trade, including electronics — useful context for the e-waste sections of this brief."},
+    {title:"Cradle to Cradle", author:"William McDonough & Michael Braungart", cat:"Design", blurb:"A foundational sustainable-design argument for products built to be fully reused or safely returned to nature — relevant for anyone designing tech hardware."},
+    {title:"Garbology", author:"Edward Humes", cat:"Waste systems", blurb:"An accessible tour of where American trash actually goes, and what that reveals about consumption."},
+    {title:"Plastic Ocean", author:"Charles Moore", cat:"Ocean pollution", blurb:"The oceanographer who identified the Great Pacific Garbage Patch recounts the discovery and its implications."}
+  ];
+
+  const grid = document.getElementById('book-grid');
+  const countEl = document.getElementById('book-count');
+  const searchInput = document.getElementById('book-search');
+
+  function renderBooks(list){
+    if(!list.length){
+      grid.innerHTML = '<div class="book-empty">No books match that search. Try a different title, author, or topic.</div>';
+      countEl.textContent = '0 results';
+      return;
+    }
+    countEl.textContent = list.length + (list.length === books.length ? ' books' : ' matching');
+    grid.innerHTML = list.map(b => `
+      <div class="book-card">
+        <div class="book-title">${escapeHtml(b.title)}</div>
+        <div class="book-author">${escapeHtml(b.author)}</div>
+        <div class="book-blurb">${escapeHtml(b.blurb)}</div>
+        <div class="book-cat">${escapeHtml(b.cat)}</div>
+      </div>`).join('');
+  }
+
+  function escapeHtml(s){
+    const d = document.createElement('div');
+    d.textContent = s;
+    return d.innerHTML;
+  }
+
+  searchInput.addEventListener('input', () => {
+    const q = searchInput.value.trim().toLowerCase();
+    if(!q){ renderBooks(books); return; }
+    const filtered = books.filter(b =>
+      b.title.toLowerCase().includes(q) ||
+      b.author.toLowerCase().includes(q) ||
+      b.cat.toLowerCase().includes(q) ||
+      b.blurb.toLowerCase().includes(q)
+    );
+    renderBooks(filtered);
+  });
+
+  renderBooks(books);
+})();
+</script>
+</body>
+</html>
